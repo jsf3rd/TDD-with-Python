@@ -8,7 +8,7 @@ class ItemValidationTest(FunctionalTest):
         self.add_new_item('')
         
         error = self.browser.find_element_by_css_selector('.has-error')
-        slef.assertEqual(error.text, "빈 아이템을 등록할 수 없습니다")
+        self.assertEqual(error.text, "빈 아이템을 등록할 수 없습니다")
         
         self.add_new_item('우유사기')
         self.check_for_row_in_list_table('1: 우유사기')
@@ -17,7 +17,7 @@ class ItemValidationTest(FunctionalTest):
 
         self.check_for_row_in_list_table('1: 우유사기')
         error = self.browser.find_element_by_css_selector('.has-error')
-        slef.assertEqual(error.text, "빈 아이템을 등록할 수 없습니다")
+        self.assertEqual(error.text, "빈 아이템을 등록할 수 없습니다")
         
         self.add_new_item('tea 만들기')
         self.check_for_row_in_list_table('1: 우유사기')
