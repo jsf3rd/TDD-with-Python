@@ -1,15 +1,8 @@
 from .base import FunctionalTest
-from selenium.webdriver.common.keys import Keys
-import time
+
 
 class NewVisitorTest(FunctionalTest):
     
-    def add_new_item(self, item_name):
-        inputbox = self.browser.find_element_by_id('id_new_item')
-        inputbox.send_keys(item_name)
-        inputbox.send_keys(Keys.ENTER)
-        time.sleep(1)
-
     def test_can_start_a_list_and_retrieve_it_later(self):
         print(self.server_url)
     

@@ -1,7 +1,9 @@
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from selenium import webdriver
 from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
+from selenium.webdriver.common.keys import Keys
 import sys
+import time
 
 
 
@@ -37,3 +39,9 @@ class FunctionalTest(StaticLiveServerTestCase):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])    
+        
+    def add_new_item(self, item_name):
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        inputbox.send_keys(item_name)
+        inputbox.send_keys(Keys.ENTER)
+        time.sleep(1)
