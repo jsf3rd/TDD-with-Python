@@ -1,6 +1,11 @@
 from .base import FunctionalTest
 
 
+BUY_MILK = '우유사기'
+BUY_FEATHERS = '공작깃털 사기'
+MAKE_NET_WITH_FEATHER = '공작깃털을 이용해서 그물만들기'
+
+
 class NewVisitorTest(FunctionalTest):
     
     def test_can_start_a_list_and_retrieve_it_later(self):
@@ -11,16 +16,17 @@ class NewVisitorTest(FunctionalTest):
         header_text = self.browser.find_element_by_tag_name('h1').text
         self.assertIn('작업', header_text)
         
-        self.add_new_item('공작깃털 사기')
+        self.add_new_item(BUY_FEATHERS)
         
         edith_list_url = self.browser.current_url
         self.assertRegex(edith_list_url, '/lists/.+')
-        self.check_for_row_in_list_table('1: 공작깃털 사기')
+        self.check_for_row_in_list_table('1: ' + BUY_FEATHERS)
 
-        self.add_new_item('공작깃털을 이용해서 그물만들기')
+        self.add_new_item(MAKE_NET_WITH_FEATHER)
         
-        self.check_for_row_in_list_table('2: 공작깃털을 이용해서 그물만들기')
-        self.check_for_row_in_list_table('1: 공작깃털 사기')
+        self.check_for_row_in_list_table('1: ' + BUY_FEATHERS)
+        self.check_for_row_in_list_table('2: ' + MAKE_NET_WITH_FEATHER)
+
         
         self.browser.quit()
         self.exec_firefox()
@@ -28,10 +34,10 @@ class NewVisitorTest(FunctionalTest):
         print(self.server_url)
         self.browser.get(self.server_url)
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('공작깃털 사기', page_text);
-        self.assertNotIn('그물만들기', page_text);
+        self.assertNotIn(BUY_FEATHERS, page_text);
+        self.assertNotIn(MAKE_NET_WITH_FEATHER, page_text);
         
-        self.add_new_item('우유 사기')
+        self.add_new_item(BUY_MILK)
         
         print(self.browser.current_url)
         francis_list_url = self.browser.current_url
@@ -39,8 +45,8 @@ class NewVisitorTest(FunctionalTest):
         self.assertNotEqual(francis_list_url, edith_list_url)
         
         page_text = self.browser.find_element_by_tag_name('body').text
-        self.assertNotIn('공작깃털 사기', page_text);
-        self.assertNotIn('그물만들기', page_text);
-        self.assertIn('우유 사기', page_text);
+        self.assertNotIn(BUY_FEATHERS, page_text);
+        self.assertNotIn(MAKE_NET_WITH_FEATHER, page_text);
+        self.assertIn(BUY_MILK, page_text);
 
  

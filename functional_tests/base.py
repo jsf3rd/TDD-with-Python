@@ -6,7 +6,6 @@ import sys
 import time
 
 
-
 class FunctionalTest(StaticLiveServerTestCase):
     @classmethod
     def setUpClass(cls):

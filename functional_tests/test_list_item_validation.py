@@ -1,6 +1,10 @@
 from .base import FunctionalTest
 from unittest import skip
 import time
+from messages import EMPTY_LIST_ERROR
+
+BUY_MILK = "우유사기"
+MAKE_TEA = "tea 만들기"
 
 class ItemValidationTest(FunctionalTest):
         
@@ -9,16 +13,16 @@ class ItemValidationTest(FunctionalTest):
 
         self.add_new_item('')
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, "빈 아이템을 등록할 수 없습니다")
+        self.assertEqual(error.text, EMPTY_LIST_ERROR)
         
-        self.add_new_item('우유사기')
-        self.check_for_row_in_list_table('1: 우유사기')
+        self.add_new_item(BUY_MILK)
+        self.check_for_row_in_list_table('1: ' + BUY_MILK)
         
         self.add_new_item('')
         error = self.browser.find_element_by_css_selector('.has-error')
-        self.assertEqual(error.text, "빈 아이템을 등록할 수 없습니다")
+        self.assertEqual(error.text, EMPTY_LIST_ERROR)
         
-        self.add_new_item('tea 만들기')
-        self.check_for_row_in_list_table('1: 우유사기')
-        self.check_for_row_in_list_table('2: tea 만들기')
+        self.add_new_item(MAKE_TEA)
+        self.check_for_row_in_list_table('1: ' + BUY_MILK)
+        self.check_for_row_in_list_table('2: ' + MAKE_TEA)
  

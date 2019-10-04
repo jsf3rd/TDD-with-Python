@@ -4,5 +4,5 @@
 
 * Official Site
 
-https://github.com/hjwp/book-example#checking-out-code-for-individual-chapters
+https://github.com/hjwp/book-example
 
