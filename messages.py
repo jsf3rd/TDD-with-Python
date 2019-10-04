@@ -1,0 +1,1 @@
+EMPTY_LIST_ERROR = '빈 아이템을 등록할 수 없습니다'
