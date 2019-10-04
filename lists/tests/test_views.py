@@ -5,7 +5,10 @@ from django.http import HttpRequest
 from django.utils.html import escape
 from lists.views import home_page
 from lists.models import Item, List
+from messages import EMPTY_LIST_ERROR
 
+NEW_ITEM = '신규 작업 아이템'
+ADD_ITEM = '기존 목록에 신규 아이템'
 
 class HomePageTest(TestCase):
     
@@ -55,12 +58,12 @@ class ListViewTest(TestCase):
         
         self.client.post(
             '/lists/%d/' % (correct_list.id,),
-            data={'item_text': '기존 목록에 신규 아이템'},
+            data={'item_text': ADD_ITEM},
         )
         
         self.assertEqual(Item.objects.count(), 1)
         new_item = Item.objects.first()
-        self.assertEqual(new_item.text, '기존 목록에 신규 아이템')
+        self.assertEqual(new_item.text, ADD_ITEM)
         self.assertEqual(new_item.list, correct_list)
         
     def test_redirects_to_list_view(self):
@@ -69,7 +72,7 @@ class ListViewTest(TestCase):
         
         response = self.client.post(
             '/lists/%d/' % (correct_list.id,),
-            data={'item_text': '기존 목록에 신규 아이템'},
+            data={'item_text': ADD_ITEM},
         )
         
         self.assertRedirects(response, '/lists/%d/' % (correct_list.id,))
@@ -79,17 +82,17 @@ class NewListTest(TestCase):
     def test_saving_a_POST_request(self):
         self.client.post(
             '/lists/new',
-            data={'item_text': '신규 작업 아이템'}
+            data={'item_text': NEW_ITEM}
         )
         
         self.assertEqual(Item.objects.count(),1)
         new_item = Item.objects.first()
-        self.assertEqual(new_item.text, '신규 작업 아이템')
+        self.assertEqual(new_item.text, NEW_ITEM)
  
     def test_redirects_after_POST(self):
         response = self.client.post(
             '/lists/new',
-            data={'item_text': '신규 작업 아이템'}
+            data={'item_text': NEW_ITEM}
         )
         
         new_list = List.objects.first()
@@ -101,7 +104,7 @@ class NewListTest(TestCase):
             data={'item_text':''})
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed(response, 'home.html')
-        expected_error = escape("빈 아이템을 등록할 수 없습니다")
+        expected_error = escape(EMPTY_LIST_ERROR)
         #print(response.content.decode())
         self.assertContains(response, expected_error)
         
@@ -117,7 +120,7 @@ class NewListTest(TestCase):
             data={'item_text':''})
         self.assertEqual(response.status_code,200)
         self.assertTemplateUsed(response, 'list.html')
-        expected_error = escape("빈 아이템을 등록할 수 없습니다")
+        expected_error = escape(EMPTY_LIST_ERROR)
         self.assertContains(response, expected_error)
         
         
