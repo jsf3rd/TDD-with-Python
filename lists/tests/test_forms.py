@@ -8,7 +8,7 @@ class ItemFormTest(TestCase):
         form = ItemForm()
         self.assertIn('placeholder="작업 아이템 입력"', form.as_p())
         self.assertIn('class="form-control input-lg"', form.as_p())
-        print(form.as_p())
+        # print(form.as_p())
         
     def test_form_validation_for_blank_items(self):
         form = ItemForm(data={'text': ''})
