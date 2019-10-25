@@ -5,8 +5,9 @@ from django.http import HttpRequest
 from django.utils.html import escape
 from lists.views import home_page
 from lists.models import Item, List
-from messages import EMPTY_LIST_ERROR
+from messages import EMPTY_LIST_ERROR, DUPLICATE_ITEM_ERROR
 from lists.forms import ItemForm
+from unittest import skip
 
 NEW_ITEM = '신규 작업 아이템'
 ADD_ITEM = '기존 목록에 신규 아이템'
@@ -102,6 +103,19 @@ class ListViewTest(TestCase):
     def test_for_invalid_input_shows_error_on_page(self):
         response = self.post_invalid_input()
         self.assertContains(response, escape(EMPTY_LIST_ERROR))
+    
+    @skip
+    def test_duplicate_item_validation_errors_end_on_lists_page(self):
+        list1 = List.objects.create()
+        item1 = Item.objects.create(list=list1, text='글자')
+        response = self.client.post(
+            '/lists/%d/' % (list1.id,),
+            data={'text': '글자'}
+        )
+        expected_error = escape(DUPLICATE_ITEM_ERROR)
+        self.assertContains(response, expected_error)
+        self.assertTemplateUsed(response, 'list.html')
+        self.assertEqual(Item.objects.all().count(), 1)
 
 class NewListTest(TestCase):
 
