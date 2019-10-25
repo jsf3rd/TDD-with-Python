@@ -49,12 +49,14 @@ class FunctionalTest(StaticLiveServerTestCase):
     def get_item_input_box(self):
         return self.wait_for(lambda: self.browser.find_element_by_id('id_text'))
 
+    def get_error_message(self):
+        return self.wait_for(lambda: self.browser.find_element_by_css_selector('.has-error'))
+
     def check_for_row_in_list_table(self, row_text):
         table = self.browser.find_element_by_id('id_list_table')
         rows = table.find_elements_by_tag_name('tr')
         self.assertIn(row_text, [row.text for row in rows])    
 
-        
     def wait_for_row_in_list_table(self, row_text):
         self.wait_for(lambda: self.check_for_row_in_list_table(row_text))
         
