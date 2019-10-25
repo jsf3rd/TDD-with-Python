@@ -1,7 +1,7 @@
 from .base import FunctionalTest
 from unittest import skip
 import time
-from messages import EMPTY_LIST_ERROR, ALREADY_EXIST_ITEM
+from messages import EMPTY_LIST_ERROR, DUPLICATE_ITEM_ERROR
 
 BUY_MILK = "우유사기"
 MAKE_TEA = "tea 만들기"
@@ -36,5 +36,5 @@ class ItemValidationTest(FunctionalTest):
         self.add_new_item(BUY_COKE)
         self.wait_for_row_in_list_table('1: ' + BUY_COKE)
         error = self.get_error_message()
-        self.assertEqual(error.text, ALREADY_EXIST_ITEM)
+        self.assertEqual(error.text, DUPLICATE_ITEM_ERROR)
         
