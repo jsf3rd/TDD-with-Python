@@ -49,7 +49,7 @@ class FunctionalTest(StaticLiveServerTestCase):
     def get_item_input_box(self):
         return self.wait_for(lambda: self.browser.find_element_by_id('id_text'))
 
-    def get_error_message(self):
+    def get_error_element(self):
         return self.wait_for(lambda: self.browser.find_element_by_css_selector('.has-error'))
 
     def check_for_row_in_list_table(self, row_text):
